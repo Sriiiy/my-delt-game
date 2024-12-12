@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game with Toggles</title>
+    <title>Game</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,52 +16,6 @@
             color: white;
             margin: 0;
             text-align: center;
-        }
-
-        .toggle-container {
-            margin: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-        }
-
-        .toggle {
-            display: flex;
-            align-items: center;
-        }
-
-        .toggle input[type="checkbox"] {
-            display: none;
-        }
-
-        .toggle-label {
-            cursor: pointer;
-            position: relative;
-            width: 50px;
-            height: 24px;
-            background-color: #ccc;
-            border-radius: 30px;
-            transition: background-color 0.3s;
-        }
-
-        .toggle-label:before {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 20px;
-            height: 20px;
-            background-color: white;
-            border-radius: 50%;
-            transition: left 0.3s;
-        }
-
-        .toggle input[type="checkbox"]:checked + .toggle-label {
-            background-color: #4CAF50;
-        }
-
-        .toggle input[type="checkbox"]:checked + .toggle-label:before {
-            left: 28px;
         }
 
         iframe {
@@ -85,54 +39,22 @@
         button:hover {
             background-color: #4CAF50;
         }
-
     </style>
 </head>
 <body>
 
-    <h2>Game Options</h2>
+    <h2>Game</h2>
 
-    <!-- Toggle options for Multibox and VPN -->
-    <div class="toggle-container">
-        <div class="toggle">
-            <input type="checkbox" id="multibox">
-            <label class="toggle-label" for="multibox"></label>
-            <span>Enable Multibox</span>
-        </div>
-        <div class="toggle">
-            <input type="checkbox" id="vpn">
-            <label class="toggle-label" for="vpn"></label>
-            <span>Enable VPN</span>
-        </div>
-    </div>
-
-    <!-- Start game button (you can add logic to check toggle states before launching the game) -->
-    <button id="start-button" onclick="startGame()">Start Game</button>
+    <!-- Start Game Button -->
+    <button onclick="startGame()">Start Game</button>
 
     <!-- Embedded Game -->
     <iframe src="https://delt.io/?sb" id="game-iframe"></iframe>
 
     <script>
         function startGame() {
-            // Get the state of the toggles
-            const isMultiboxEnabled = document.getElementById("multibox").checked;
-            const isVpnEnabled = document.getElementById("vpn").checked;
-
-            // You can use these values to modify the game experience, if needed.
-            console.log("Multibox Enabled:", isMultiboxEnabled);
-            console.log("VPN Enabled:", isVpnEnabled);
-
-            // Optionally, you can perform additional actions based on the toggles (e.g., modify iframe URL)
-            // Example: You can pass the toggle state to the game URL, but this depends on how your game is set up.
-
-            if (isMultiboxEnabled) {
-                // Handle Multibox enabling logic
-                console.log("Multibox is enabled");
-            }
-            if (isVpnEnabled) {
-                // Handle VPN enabling logic
-                console.log("VPN is enabled");
-            }
+            // Logic to start the game (if needed)
+            console.log("Game Started!");
         }
     </script>
 
