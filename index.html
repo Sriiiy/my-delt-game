@@ -5,83 +5,132 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
-        /* General styles */
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Full-screen background */
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f4f8;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            font-family: 'Helvetica Neue', sans-serif;
+            background: url('https://images.unsplash.com/photo-1506748686218-7b7a4f204319') no-repeat center center fixed; /* Background image */
+            background-size: cover;
+            overflow: hidden;
         }
 
+        /* Main container for login form */
         .login-container {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.85); /* Light opacity background */
             padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             text-align: center;
+            position: relative;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h2 {
-            margin-bottom: 30px;
             color: #333;
+            font-size: 30px;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
 
         input[type="text"], input[type="password"] {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
             font-size: 16px;
-            box-sizing: border-box;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
         }
 
         input[type="text"]:focus, input[type="password"]:focus {
-            border-color: #007bff;
+            border: 1px solid #2575fc;
             outline: none;
+            background-color: #fff;
         }
 
         button {
-            background-color: #007bff;
+            background-color: #2575fc;
             color: white;
-            padding: 12px 20px;
+            padding: 14px 20px;
+            border-radius: 8px;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
+            font-size: 18px;
             width: 100%;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #1e63c5;
+            transform: translateY(-3px);
         }
 
         .error {
             color: red;
             font-size: 14px;
-            margin-top: 10px;
+            margin-top: 15px;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .error.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Stylish logo */
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #2575fc;
+            letter-spacing: 2px;
         }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <h2>Login</h2>
+        <div class="logo">Your Company</div>
+        <h2>Welcome Back!</h2>
         <form id="login-form">
-            <input type="text" id="username" name="username" placeholder="Enter username" required>
-            <input type="password" id="password" name="password" placeholder="Enter password" required>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
             <button type="submit">Login</button>
-            <div class="error" id="error-message"></div>
+            <div class="error" id="error-message">Invalid username or password!</div>
         </form>
     </div>
 
     <script>
-        // Predefined usernames and passwords
+        // Predefined users for the demo
         const users = [
             { username: "user1", password: "pass1" },
             { username: "user2", password: "pass2" },
@@ -95,19 +144,19 @@
             const errorMessage = document.getElementById("error-message");
 
             // Clear any previous error message
-            errorMessage.textContent = "";
+            errorMessage.classList.remove("show");
 
             // Check if the entered username and password match any of the predefined users
             const user = users.find(u => u.username === username && u.password === password);
 
             if (user) {
-                // Set a flag to indicate the user is authenticated
+                // Set the flag to indicate the user is authenticated
                 localStorage.setItem("authenticated", "true");
                 // Redirect to the main page after successful login
                 window.location.href = "/main.html";
             } else {
                 // Display error message if the username or password is incorrect
-                errorMessage.textContent = "Invalid username or password!";
+                errorMessage.classList.add("show");
             }
         });
     </script>
