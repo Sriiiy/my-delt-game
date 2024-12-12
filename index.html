@@ -3,21 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Custom Delt Game</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-        iframe {
-            width: 100vw;
-            height: 100vh;
-            border: none;
-        }
-    </style>
+    <title>Login</title>
 </head>
 <body>
-    <iframe src="https://delt.io/?sb"></iframe>
+    <h2>Login</h2>
+    <form id="login-form">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+        
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+        // Predefined usernames and passwords
+        const users = [
+            { username: "user1", password: "pass1" },
+            { username: "user2", password: "pass2" },
+            { username: "user3", password: "pass3" }
+        ];
+
+        document.getElementById("login-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            
+            // Check if the entered username and password match any of the predefined users
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                // Redirect to the target page after successful login
+                window.location.href = "https://delt.io/sb";
+            } else {
+                alert("Invalid username or password!");
+            }
+        });
+    </script>
 </body>
 </html>
