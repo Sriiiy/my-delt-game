@@ -5,28 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
-        /* Basic Reset */
+        /* Reset CSS */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Full-screen gradient background */
+        /* Fullscreen gradient background */
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(135deg, #6a11cb, #2575fc); /* Gradient colors */
+            background: linear-gradient(135deg, #6a11cb, #2575fc); /* Gradient from purple to blue */
             font-family: 'Helvetica Neue', sans-serif;
         }
 
-        /* Login container */
+        /* Login form container */
         .login-container {
-            background-color: rgba(255, 255, 255, 0.85); /* Light opacity background */
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
             padding: 40px;
-            border-radius: 10px;
+            border-radius: 15px;
             box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.2);
             text-align: center;
             width: 100%;
@@ -40,11 +40,19 @@
             font-weight: 600;
         }
 
+        label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            text-align: left;
+            width: 100%;
+            color: #333;
+        }
+
         .input-field {
             width: 100%;
             padding: 14px;
             margin: 10px 0;
-            border-radius: 8px;
+            border-radius: 10px;
             border: 1px solid #ddd;
             font-size: 16px;
             background-color: #f9f9f9;
@@ -61,7 +69,7 @@
             background-color: #2575fc;
             color: white;
             padding: 14px 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             border: none;
             font-size: 18px;
             width: 100%;
@@ -81,6 +89,11 @@
             visibility: hidden;
             opacity: 0;
             transition: opacity 0.5s ease;
+        }
+
+        .error.visible {
+            visibility: visible;
+            opacity: 1;
         }
     </style>
 </head>
@@ -122,8 +135,7 @@
                 window.location.href = "/main.html";
             } else {
                 const errorMsg = document.getElementById("error-msg");
-                errorMsg.style.visibility = "visible";
-                errorMsg.style.opacity = "1";
+                errorMsg.classList.add("visible");
             }
         });
     </script>
