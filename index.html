@@ -34,8 +34,10 @@
             const user = users.find(u => u.username === username && u.password === password);
 
             if (user) {
-                // Redirect to the target page after successful login
-                window.location.href = "https://delt.io/sb";
+                // Set a flag to indicate the user is authenticated
+                localStorage.setItem("authenticated", "true");
+                // Redirect to the main page with the iframe after successful login
+                window.location.href = "/main.html";
             } else {
                 alert("Invalid username or password!");
             }
