@@ -4,10 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game</title>
+    <style>
+        /* Make sure the body and html cover the entire screen */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;  /* Prevent scrollbars */
+            background-color: black;  /* Optional: set background color */
+        }
+
+        /* Style the iframe to cover the full screen */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
 </head>
 <body>
 
-    
     <script>
         // Check if the user is authenticated
         if (!localStorage.getItem("authenticated")) {
@@ -17,7 +36,28 @@
     </script>
 
     <!-- Embed the delt.io game within an iframe -->
-    <iframe src="https://delt.io/?sb" width="100%" height="800px" style="border: none;"></iframe>
+    <iframe src="https://delt.io/?sb" id="game-iframe"></iframe>
+
+    <script>
+        // Function to enable full-screen mode
+        function openFullscreen() {
+            var doc = document.documentElement;
+            if (doc.requestFullscreen) {
+                doc.requestFullscreen();
+            } else if (doc.mozRequestFullScreen) { // Firefox
+                doc.mozRequestFullScreen();
+            } else if (doc.webkitRequestFullscreen) { // Chrome, Safari, Opera
+                doc.webkitRequestFullscreen();
+            } else if (doc.msRequestFullscreen) { // IE/Edge
+                doc.msRequestFullscreen();
+            }
+        }
+
+        // Open full screen after the page has loaded
+        window.onload = function() {
+            openFullscreen();
+        };
+    </script>
 
 </body>
 </html>
