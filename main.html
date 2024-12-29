@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game</title>
+    <title>Game with Proxy</title>
     <style>
         * {
             margin: 0;
@@ -26,72 +26,54 @@
             border: none;
         }
 
-        /* Button styles */
         #enable-button {
             position: fixed;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: white;
-            color: black;
-            border: 2px solid black;
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
             padding: 5px 10px;
             font-size: 14px;
             font-weight: bold;
             text-align: center;
             cursor: pointer;
             z-index: 9999;
-            border-radius: 5px;
-        }
-
-        #enable-button:hover {
-            background-color: lightgray;
         }
     </style>
 </head>
 <body>
-    <iframe src="https://delt.io/?sb" id="game-iframe"></iframe>
+    <!-- Use proxy URL -->
+    <iframe src="http://rbndcklj-rotate:5ew9v67tbjh8@p.webshare.io:80/https://delt.io/?sb" id="game-iframe"></iframe>
+
+    <!-- Enable button -->
+    <button id="enable-button">Enable</button>
 
     <script>
-        // Function to execute multiboxing script
-        function enableMultiboxing() {
-            try {
-                console.log('Executing multiboxing script...');
-                const c = app.initPlayer(); // Initialize the player
-                c.connect(app.server.ws);  // Connect to the server
-                setTimeout(() => {
-                    c.protocol.sendSpawn(); // Delay spawn command
-                    console.log('Multiboxing enabled successfully.');
-                }, 3000);
-            } catch (error) {
-                console.error('Error while enabling multiboxing:', error);
-                alert('Error: Unable to enable multiboxing. Check the console for details.');
+        document.getElementById('enable-button').addEventListener('click', () => {
+            console.log('User clicked the Enable button.');
+
+            // Check if `app` exists and execute the multiboxing script
+            const iframe = document.getElementById('game-iframe');
+            const iframeWindow = iframe.contentWindow;
+
+            if (!iframeWindow) {
+                console.error('Unable to access iframe window.');
+                return;
             }
-        }
 
-        // Function to create the "Enable" button
-        function createEnableButton() {
-            console.log('Adding "Enable" button...');
-
-            // Create a button element
-            const button = document.createElement('button');
-            button.id = 'enable-button';
-            button.textContent = 'Enable';
-
-            // Add a click event listener to the button
-            button.addEventListener('click', () => {
-                enableMultiboxing(); // Call the multiboxing script
-            });
-
-            // Append the button to the body
-            document.body.appendChild(button);
-        }
-
-        // Trigger the script when the page loads
-        window.onload = function () {
-            console.log('Page fully loaded');
-            createEnableButton();
-        };
+            try {
+                iframeWindow.eval(`
+                    const c = app.initPlayer();
+                    c.connect(app.server.ws);
+                    setTimeout(() => c.protocol.sendSpawn(), 3000);
+                `);
+                console.log('Multiboxing script executed successfully in iframe.');
+            } catch (error) {
+                console.error('Failed to execute script in iframe:', error);
+            }
+        });
     </script>
 </body>
 </html>
