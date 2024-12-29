@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delta Agario</title>
+    <title>Game</title>
     <style>
         * {
             margin: 0;
@@ -12,54 +12,26 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #6a11cb, #2575fc);
+            background: black;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            color: white;
-            text-align: center;
-        }
-
-        .no-background {
-            background: #000; /* Fallback background color */
+            overflow: hidden;
         }
 
         iframe {
-            width: 100%;
-            height: calc(100vh - 150px); /* Dynamic height adjustment */
+            width: 100vw;
+            height: 100vh;
             border: none;
-        }
-
-        button {
-            background-color: #2575fc;
-            color: white;
-            padding: 15px 32px;
-            font-size: 18px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #4CAF50;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to the Game</h1>
-    <p>Enjoy your time playing!</p>
-
     <iframe src="https://delt.io/?sb" id="game-iframe"></iframe>
 
     <script>
-        if (localStorage.getItem("authenticated") === "true") {
-            document.body.classList.add('no-background');
-        } else {
+        if (localStorage.getItem("authenticated") !== "true") {
             alert("Please log in first!");
             window.location.href = "login.html";
         }
