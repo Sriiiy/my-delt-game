@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game with Proxy</title>
+    <title>Game</title>
     <style>
         * {
             margin: 0;
@@ -26,6 +26,7 @@
             border: none;
         }
 
+        /* Enable button styling */
         #enable-button {
             position: fixed;
             top: 20px;
@@ -44,36 +45,60 @@
     </style>
 </head>
 <body>
-    <!-- Use proxy URL -->
-    <iframe src="http://rbndcklj-rotate:5ew9v67tbjh8@p.webshare.io:80/https://delt.io/?sb" id="game-iframe"></iframe>
+    <!-- Game iframe -->
+    <iframe src="https://delt.io/?sb" id="game-iframe"></iframe>
 
     <!-- Enable button -->
     <button id="enable-button">Enable</button>
 
     <script>
-        document.getElementById('enable-button').addEventListener('click', () => {
-            console.log('User clicked the Enable button.');
+        // Proxy settings
+        const proxyHost = "198.23.239.134";
+        const proxyPort = "6540";
+        const proxyUsername = "rbndcklj";
+        const proxyPassword = "5ew9v67tbjh8";
 
-            // Check if `app` exists and execute the multiboxing script
-            const iframe = document.getElementById('game-iframe');
-            const iframeWindow = iframe.contentWindow;
+        // Function to authenticate with the proxy (if required for external requests)
+        function setupProxy() {
+            console.log("Proxy setup invoked");
+            const proxyUrl = `http://${proxyUsername}:${proxyPassword}@${proxyHost}:${proxyPort}`;
+            console.log("Using proxy:", proxyUrl);
 
-            if (!iframeWindow) {
-                console.error('Unable to access iframe window.');
-                return;
-            }
+            // NOTE: Native support for proxy routing in browsers may require server-side configuration.
+            // For advanced functionality, consider server-side routing through the proxy.
+        }
+
+        // Function to enable the custom script
+        function enableMultiboxing() {
+            console.log("User clicked Enable button");
 
             try {
-                iframeWindow.eval(`
-                    const c = app.initPlayer();
-                    c.connect(app.server.ws);
-                    setTimeout(() => c.protocol.sendSpawn(), 3000);
-                `);
-                console.log('Multiboxing script executed successfully in iframe.');
+                if (typeof app === "undefined") {
+                    throw new Error("app object is not defined. Multiboxing cannot proceed.");
+                }
+
+                // Execute the script
+                const c = app.initPlayer();
+                c.connect(app.server.ws);
+                setTimeout(() => c.protocol.sendSpawn(), 3000);
+
+                console.log("Multiboxing script executed successfully.");
+                alert("Success: Multiboxing script executed!");
             } catch (error) {
-                console.error('Failed to execute script in iframe:', error);
+                console.error("Error while enabling multiboxing:", error.message);
+                alert("Failed to enable multiboxing. Check console for details.");
             }
+        }
+
+        // Attach event listener to the Enable button
+        document.getElementById("enable-button").addEventListener("click", () => {
+            setupProxy(); // Optional: Add proxy setup logic if required
+            enableMultiboxing(); // Run the multiboxing script
         });
+
+        // Logging to confirm script execution
+        console.log("Script loaded successfully");
     </script>
 </body>
 </html>
+
