@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
+        /* Reset CSS */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* Fullscreen gradient background */
         body {
             display: flex;
             justify-content: center;
@@ -20,6 +22,7 @@
             font-family: 'Helvetica Neue', sans-serif;
         }
 
+        /* Login form container */
         .login-container {
             background-color: rgba(255, 255, 255, 0.9);
             padding: 40px;
@@ -118,9 +121,9 @@
 
         document.getElementById("login-form").addEventListener("submit", function(e) {
             e.preventDefault();
-            const username = document.getElementById("username").value.trim();
-            const password = document.getElementById("password").value.trim();
-            
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
             const user = users.find(u => u.username === username && u.password === password);
 
             if (user) {
