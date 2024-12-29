@@ -32,15 +32,20 @@
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: transparent;
-            color: white;
-            border: 2px solid white;
+            background-color: white;
+            color: black;
+            border: 2px solid black;
             padding: 5px 10px;
             font-size: 14px;
             font-weight: bold;
             text-align: center;
             cursor: pointer;
             z-index: 9999;
+            border-radius: 5px;
+        }
+
+        #enable-button:hover {
+            background-color: lightgray;
         }
     </style>
 </head>
@@ -48,80 +53,30 @@
     <iframe src="https://delt.io/?sb" id="game-iframe"></iframe>
 
     <script>
-        // Check if the user is authenticated
-        if (localStorage.getItem("authenticated") !== "true") {
-            alert("Please log in first!");
-            window.location.href = "login.html";
-        } else {
-            console.log("User authenticated.");
+        // Function to create the "Enable" button and add it to the DOM
+        function createEnableButton() {
+            console.log('Adding "Enable" button...');
+
+            // Create a button element
+            const button = document.createElement('button');
+            button.id = 'enable-button';
+            button.textContent = 'Enable';
+
+            // Add a click event listener to the button
+            button.addEventListener('click', () => {
+                console.log('User clicked enable button'); // Log to the console
+            });
+
+            // Append the button to the body
+            document.body.appendChild(button);
         }
 
-        // Multiboxing script
-        (function () {
-            'use strict';
-
-            console.log('Script is running');
-
-            /**
-             * Function to enable multiboxing.
-             * Assumes the `app` object is available globally.
-             */
-            async function enableMultiboxing() {
-                try {
-                    console.log('Enabling Multiboxing...');
-                    if (typeof app === 'undefined') {
-                        throw new Error('app object is not defined. Cannot enable multiboxing.');
-                    }
-
-                    // Initialize the player and connect to the server
-                    const player = app.initPlayer();
-                    player.connect(app.server.ws);
-
-                    // Delay for spawn action
-                    setTimeout(() => {
-                        player.protocol.sendSpawn();
-                        console.log('Multiboxing enabled successfully.');
-                    }, 3000);
-
-                    alert('Success: Multiboxing enabled!');
-                } catch (error) {
-                    console.error('Failed to enable multiboxing:', error);
-                    alert('Error: Could not enable multiboxing. Check the console for details.');
-                }
-            }
-
-            /**
-             * Function to create the "Enable Multiboxing" button and add it to the DOM.
-             */
-            function createEnableButton() {
-                console.log('Adding "Enable Multiboxing" button...');
-
-                // Check if button already exists to avoid duplicates
-                if (document.getElementById('enable-button')) {
-                    console.log('Enable Multiboxing button already exists.');
-                    return;
-                }
-
-                // Create a button element
-                const button = document.createElement('button');
-                button.id = 'enable-button';
-                button.textContent = 'Enable';
-
-                // Add a click event listener to the button
-                button.addEventListener('click', () => {
-                    enableMultiboxing();
-                });
-
-                // Append the button to the body
-                document.body.appendChild(button);
-            }
-
-            // Trigger the script when the page loads
-            window.onload = function () {
-                console.log('Page fully loaded');
-                setTimeout(createEnableButton, 1000); // Delay adding the button for 1 second
-            };
-        })();
+        // Trigger the script when the page loads
+        window.onload = function () {
+            console.log('Page fully loaded');
+            createEnableButton();
+        };
     </script>
 </body>
 </html>
+
