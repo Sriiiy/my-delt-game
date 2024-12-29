@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main</title>
+    <title>Game</title>
     <style>
         * {
             margin: 0;
@@ -12,11 +12,12 @@
         }
 
         body {
-            background-color: black;
+            background: black;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow: hidden;
         }
 
         iframe {
@@ -24,42 +25,71 @@
             height: 100vh;
             border: none;
         }
-
-        .logout-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #f44336;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .logout-btn:hover {
-            background-color: #d32f2f;
-        }
     </style>
 </head>
 <body>
     <iframe src="https://delt.io/?sb" id="game-iframe"></iframe>
-    <button class="logout-btn" id="logout-btn">Logout</button>
-
+    
     <script>
         // Check if the user is authenticated
         if (localStorage.getItem("authenticated") !== "true") {
             alert("Please log in first!");
             window.location.href = "login.html";
+        } else {
+            console.log("User authenticated.");
         }
 
-        // Logout functionality
-        document.getElementById("logout-btn").addEventListener("click", function() {
-            localStorage.removeItem("authenticated"); // Clear authentication flag
-            alert("You have been logged out!");
-            window.location.href = "login.html";
-        });
+        // Multiboxing script
+        (function() {
+            'use strict';
+
+            console.log('Script is running');
+
+            // Function to enable multiboxing
+            async function enableMultiboxing() {
+                console.log('Enabling Multiboxing');
+                const player = app.initPlayer(); // Initialize the player
+                player.server.connect(app.protocol.ws); // Connect to the server
+                setTimeout(() => player.sendSpawn(), 3000); // Delay to send spawn request
+            }
+
+            // Function to create the "Enable Multiboxing" button
+            function createEnableButton() {
+                console.log('Attempting to add Enable Multiboxing button');
+
+                // Create a button element
+                const button = document.createElement('button');
+                button.textContent = 'Enable';
+                button.style.position = 'fixed';
+                button.style.top = '20px';
+                button.style.left = '50%';
+                button.style.transform = 'translateX(-50%)';
+                button.style.backgroundColor = 'transparent';
+                button.style.color = 'white';
+                button.style.border = '2px solid white';
+                button.style.padding = '3px 8px';
+                button.style.fontSize = '12px';
+                button.style.fontWeight = 'bold';
+                button.style.textAlign = 'center';
+                button.style.cursor = 'pointer';
+                button.style.zIndex = '9999';
+
+                // Add click event listener to the button
+                button.addEventListener('click', function() {
+                    enableMultiboxing(); // Call the function to enable multiboxing
+                    alert('Success: Multiboxing enabled!'); // Notify the user
+                });
+
+                // Append the button to the body
+                document.body.appendChild(button);
+            }
+
+            // Trigger the script when the page loads
+            window.onload = function() {
+                console.log('Page fully loaded');
+                setTimeout(createEnableButton, 1000); // Delay adding the button for 1 second
+            };
+        })();
     </script>
 </body>
 </html>
