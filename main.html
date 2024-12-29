@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game</title>
+    <title>Main</title>
     <style>
         * {
             margin: 0;
@@ -12,12 +12,11 @@
         }
 
         body {
-            background: black;
+            background-color: black;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden;
         }
 
         iframe {
@@ -25,16 +24,42 @@
             height: 100vh;
             border: none;
         }
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #f44336;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .logout-btn:hover {
+            background-color: #d32f2f;
+        }
     </style>
 </head>
 <body>
     <iframe src="https://delt.io/?sb" id="game-iframe"></iframe>
-    <script src="multibox.js"></script>
+    <button class="logout-btn" id="logout-btn">Logout</button>
+
     <script>
+        // Check if the user is authenticated
         if (localStorage.getItem("authenticated") !== "true") {
             alert("Please log in first!");
             window.location.href = "login.html";
         }
+
+        // Logout functionality
+        document.getElementById("logout-btn").addEventListener("click", function() {
+            localStorage.removeItem("authenticated"); // Clear authentication flag
+            alert("You have been logged out!");
+            window.location.href = "login.html";
+        });
     </script>
 </body>
 </html>
