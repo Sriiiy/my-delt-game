@@ -3,16 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Popup Login</title>
     <style>
-        /* Reset CSS */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Fullscreen gradient background */
         body {
             display: flex;
             justify-content: center;
@@ -20,120 +12,37 @@
             height: 100vh;
             background: linear-gradient(135deg, #6a11cb, #2575fc);
             font-family: 'Helvetica Neue', sans-serif;
-        }
-
-        /* Login form container */
-        .login-container {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        h2 {
-            color: #333;
-            font-size: 28px;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        label {
-            font-size: 14px;
-            margin-bottom: 5px;
-            text-align: left;
-            width: 100%;
-            color: #333;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 14px;
-            margin: 10px 0;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-            background-color: #f9f9f9;
-            transition: all 0.3s ease;
-        }
-
-        .input-field:focus {
-            border: 1px solid #2575fc;
-            outline: none;
-            background-color: #fff;
-        }
-
-        .btn {
-            background-color: #2575fc;
             color: white;
-            padding: 14px 20px;
-            border-radius: 10px;
-            border: none;
-            font-size: 18px;
-            width: 100%;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
-        .btn:hover {
-            background-color: #1e63c5;
-            transform: translateY(-3px);
-        }
-
-        .error {
-            color: red;
-            font-size: 14px;
-            margin-top: 15px;
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .error.visible {
-            visibility: visible;
-            opacity: 1;
+        h1 {
+            font-size: 24px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <form id="login-form">
-            <label for="username">Username</label>
-            <input type="text" id="username" class="input-field" placeholder="Type your username" required><br>
-
-            <label for="password">Password</label>
-            <input type="password" id="password" class="input-field" placeholder="Type your password" required><br>
-
-            <button type="submit" class="btn">Login</button>
-            <p class="error" id="error-msg">Invalid username or password!</p>
-        </form>
-    </div>
+    <h1>Welcome to the Page</h1>
 
     <script>
-        const users = [
-            { username: "user1", password: "pass1" },
-            { username: "user2", password: "pass2" },
-            { username: "user3", password: "pass3" }
-        ];
+        const validUsername = "user1";
+        const validPassword = "admin";
 
-        document.getElementById("login-form").addEventListener("submit", function(e) {
-            e.preventDefault();
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
+        function validateLogin() {
+            const username = prompt("Enter your username:");
+            const password = prompt("Enter your password:");
 
-            const user = users.find(u => u.username === username && u.password === password);
-
-            if (user) {
-                localStorage.setItem("authenticated", "true");
-                window.location.href = "main.html";
+            if (username === validUsername && password === validPassword) {
+                alert("Login successful! Redirecting...");
+                window.location.href = "main.html"; // Redirect to main.html
             } else {
-                const errorMsg = document.getElementById("error-msg");
-                errorMsg.classList.add("visible");
+                alert("Invalid username or password. Try again.");
+                validateLogin(); // Prompt again until valid credentials are entered.
             }
-        });
+        }
+
+        // Trigger login validation as soon as the page loads
+        validateLogin();
     </script>
 </body>
 </html>
