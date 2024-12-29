@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game</title>
+    <title>Main Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            /* Default background gradient */
             background: linear-gradient(to right, #6a11cb, #2575fc);
             display: flex;
             flex-direction: column;
@@ -16,6 +17,11 @@
             color: white;
             margin: 0;
             text-align: center;
+        }
+
+        /* After login, we'll change this background */
+        .no-background {
+            background: none;
         }
 
         iframe {
@@ -42,19 +48,21 @@
     </style>
 </head>
 <body>
-
-
-
+    <h1>Welcome to the Game</h1>
+    <p>Enjoy your time playing!</p>
 
     <!-- Embedded Game -->
     <iframe src="https://delt.io/?sb" id="game-iframe"></iframe>
 
     <script>
-        function startGame() {
-            // Logic to start the game (if needed)
-            console.log("Game Started!");
+        // Check if the user is authenticated
+        if (localStorage.getItem("authenticated") === "true") {
+            // Remove the background gradient by adding the 'no-background' class
+            document.body.classList.add('no-background');
+        } else {
+            // Redirect to login page if not authenticated
+            window.location.href = "/login.html";
         }
     </script>
-
 </body>
 </html>
