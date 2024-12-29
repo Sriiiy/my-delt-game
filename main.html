@@ -83,7 +83,7 @@
 
         // Listener for iframe response
         window.addEventListener("message", (event) => {
-            if (event.origin !== "https://delt.io") {
+            if (event.origin !== "https://delt.io/?sb") {
                 console.warn("Received message from untrusted origin:", event.origin);
                 return;
             }
