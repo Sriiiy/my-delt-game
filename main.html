@@ -25,11 +25,28 @@
             height: 100vh;
             border: none;
         }
+
+        /* Button styles */
+        #enable-button {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 5px 10px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            z-index: 9999;
+        }
     </style>
 </head>
 <body>
     <iframe src="https://delt.io/?sb" id="game-iframe"></iframe>
-    
+
     <script>
         // Check if the user is authenticated
         if (localStorage.getItem("authenticated") !== "true") {
@@ -40,44 +57,59 @@
         }
 
         // Multiboxing script
-        (function() {
+        (function () {
             'use strict';
 
             console.log('Script is running');
 
-            // Function to enable multiboxing
+            /**
+             * Function to enable multiboxing.
+             * Assumes the `app` object is available globally.
+             */
             async function enableMultiboxing() {
-                console.log('Enabling Multiboxing');
-                const player = app.initPlayer(); // Initialize the player
-                player.server.connect(app.protocol.ws); // Connect to the server
-                setTimeout(() => player.sendSpawn(), 3000); // Delay to send spawn request
+                try {
+                    console.log('Enabling Multiboxing...');
+                    if (typeof app === 'undefined') {
+                        throw new Error('app object is not defined. Cannot enable multiboxing.');
+                    }
+
+                    // Initialize the player and connect to the server
+                    const player = app.initPlayer();
+                    player.connect(app.server.ws);
+
+                    // Delay for spawn action
+                    setTimeout(() => {
+                        player.protocol.sendSpawn();
+                        console.log('Multiboxing enabled successfully.');
+                    }, 3000);
+
+                    alert('Success: Multiboxing enabled!');
+                } catch (error) {
+                    console.error('Failed to enable multiboxing:', error);
+                    alert('Error: Could not enable multiboxing. Check the console for details.');
+                }
             }
 
-            // Function to create the "Enable Multiboxing" button
+            /**
+             * Function to create the "Enable Multiboxing" button and add it to the DOM.
+             */
             function createEnableButton() {
-                console.log('Attempting to add Enable Multiboxing button');
+                console.log('Adding "Enable Multiboxing" button...');
+
+                // Check if button already exists to avoid duplicates
+                if (document.getElementById('enable-button')) {
+                    console.log('Enable Multiboxing button already exists.');
+                    return;
+                }
 
                 // Create a button element
                 const button = document.createElement('button');
+                button.id = 'enable-button';
                 button.textContent = 'Enable';
-                button.style.position = 'fixed';
-                button.style.top = '20px';
-                button.style.left = '50%';
-                button.style.transform = 'translateX(-50%)';
-                button.style.backgroundColor = 'transparent';
-                button.style.color = 'white';
-                button.style.border = '2px solid white';
-                button.style.padding = '3px 8px';
-                button.style.fontSize = '12px';
-                button.style.fontWeight = 'bold';
-                button.style.textAlign = 'center';
-                button.style.cursor = 'pointer';
-                button.style.zIndex = '9999';
 
-                // Add click event listener to the button
-                button.addEventListener('click', function() {
-                    enableMultiboxing(); // Call the function to enable multiboxing
-                    alert('Success: Multiboxing enabled!'); // Notify the user
+                // Add a click event listener to the button
+                button.addEventListener('click', () => {
+                    enableMultiboxing();
                 });
 
                 // Append the button to the body
@@ -85,7 +117,7 @@
             }
 
             // Trigger the script when the page loads
-            window.onload = function() {
+            window.onload = function () {
                 console.log('Page fully loaded');
                 setTimeout(createEnableButton, 1000); // Delay adding the button for 1 second
             };
