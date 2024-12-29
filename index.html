@@ -4,29 +4,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-   
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            font-family: Arial, sans-serif;
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .btn {
+            background-color: #2575fc;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #1e63c5;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="login-form">
+            <label for="username">Username</label>
+            <input type="text" id="username" class="input-field" placeholder="Enter your username" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" class="input-field" placeholder="Enter your password" required>
+
+            <button type="submit" class="btn">Login</button>
+            <p class="error-message" id="error-message">Invalid username or password</p>
+        </form>
+    </div>
 
     <script>
         const validUsername = "user1";
         const validPassword = "admin";
 
-        function validateLogin() {
-            const username = prompt("Enter your username:");
-            const password = prompt("Enter your password:");
+        document.getElementById("login-form").addEventListener("submit", function(e) {
+            e.preventDefault(); // Prevent form submission
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
 
             if (username === validUsername && password === validPassword) {
-                alert("Login successful! Redirecting...");
+                localStorage.setItem("authenticated", "true"); // Set authentication flag
                 window.location.href = "main.html"; // Redirect to main.html
             } else {
-                alert("Invalid username or password. Try again.");
-                validateLogin(); // Prompt again until valid credentials are entered.
+                const errorMessage = document.getElementById("error-message");
+                errorMessage.style.display = "block";
             }
-        }
-
-        // Trigger login validation as soon as the page loads
-        validateLogin();
+        });
     </script>
 </body>
 </html>
+
