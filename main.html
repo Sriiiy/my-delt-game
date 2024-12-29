@@ -52,53 +52,44 @@
     <button id="enable-button">Enable</button>
 
     <script>
-        // Proxy settings
-        const proxyHost = "198.23.239.134";
-        const proxyPort = "6540";
-        const proxyUsername = "rbndcklj";
-        const proxyPassword = "5ew9v67tbjh8";
-
-        // Function to authenticate with the proxy (if required for external requests)
-        function setupProxy() {
-            console.log("Proxy setup invoked");
-            const proxyUrl = `http://${proxyUsername}:${proxyPassword}@${proxyHost}:${proxyPort}`;
-            console.log("Using proxy:", proxyUrl);
-
-            // NOTE: Native support for proxy routing in browsers may require server-side configuration.
-            // For advanced functionality, consider server-side routing through the proxy.
-        }
-
-        // Function to enable the custom script
+        // Function to send a message to the iframe
         function enableMultiboxing() {
             console.log("User clicked Enable button");
 
-            try {
-                if (typeof app === "undefined") {
-                    throw new Error("app object is not defined. Multiboxing cannot proceed.");
-                }
-
-                // Execute the script
-                const c = app.initPlayer();
-                c.connect(app.server.ws);
-                setTimeout(() => c.protocol.sendSpawn(), 3000);
-
-                console.log("Multiboxing script executed successfully.");
-                alert("Success: Multiboxing script executed!");
-            } catch (error) {
-                console.error("Error while enabling multiboxing:", error.message);
-                alert("Failed to enable multiboxing. Check console for details.");
+            const iframe = document.getElementById("game-iframe");
+            if (!iframe) {
+                console.error("Iframe not found.");
+                alert("Error: Iframe not found.");
+                return;
             }
+
+            // Prepare the message
+            const message = {
+                action: "enableMultiboxing",
+                script: `
+                    const c = app.initPlayer();
+                    c.connect(app.server.ws);
+                    setTimeout(() => c.protocol.sendSpawn(), 3000);
+                `
+            };
+
+            // Send the message to the iframe
+            iframe.contentWindow.postMessage(message, "https://delt.io");
+            console.log("Message sent to iframe:", message);
         }
 
-        // Attach event listener to the Enable button
-        document.getElementById("enable-button").addEventListener("click", () => {
-            setupProxy(); // Optional: Add proxy setup logic if required
-            enableMultiboxing(); // Run the multiboxing script
-        });
+        // Event listener for the Enable button
+        document.getElementById("enable-button").addEventListener("click", enableMultiboxing);
 
-        // Logging to confirm script execution
-        console.log("Script loaded successfully");
+        // Listener for iframe response
+        window.addEventListener("message", (event) => {
+            if (event.origin !== "https://delt.io") {
+                console.warn("Received message from untrusted origin:", event.origin);
+                return;
+            }
+
+            console.log("Response from iframe:", event.data);
+        });
     </script>
 </body>
 </html>
-
