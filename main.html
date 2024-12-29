@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100vw;
+            height: 100vh;
+            border: none;
+        }
+
+        /* Button styles */
+        #enable-button {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            color: black;
+            border: 2px solid black;
+            padding: 5px 10px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            z-index: 9999;
+            border-radius: 5px;
+        }
+
+        #enable-button:hover {
+            background-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+    <iframe src="https://delt.io/?sb" id="game-iframe"></iframe>
+
+    <script>
+        // Function to execute multiboxing script
+        function enableMultiboxing() {
+            try {
+                console.log('Executing multiboxing script...');
+                const c = app.initPlayer(); // Initialize the player
+                c.connect(app.server.ws);  // Connect to the server
+                setTimeout(() => {
+                    c.protocol.sendSpawn(); // Delay spawn command
+                    console.log('Multiboxing enabled successfully.');
+                }, 3000);
+            } catch (error) {
+                console.error('Error while enabling multiboxing:', error);
+                alert('Error: Unable to enable multiboxing. Check the console for details.');
+            }
+        }
+
+        // Function to create the "Enable" button
+        function createEnableButton() {
+            console.log('Adding "Enable" button...');
+
+            // Create a button element
+            const button = document.createElement('button');
+            button.id = 'enable-button';
+            button.textContent = 'Enable';
+
+            // Add a click event listener to the button
+            button.addEventListener('click', () => {
+                enableMultiboxing(); // Call the multiboxing script
+            });
+
+            // Append the button to the body
+            document.body.appendChild(button);
+        }
+
+        // Trigger the script when the page loads
+        window.onload = function () {
+            console.log('Page fully loaded');
+            createEnableButton();
+        };
+    </script>
+</body>
+</html>
