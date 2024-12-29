@@ -5,26 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
-        /* Reset CSS */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Fullscreen gradient background */
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(135deg, #6a11cb, #2575fc); /* Gradient from purple to blue */
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
             font-family: 'Helvetica Neue', sans-serif;
         }
 
-        /* Login form container */
         .login-container {
-            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            background-color: rgba(255, 255, 255, 0.9);
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.2);
@@ -113,7 +110,6 @@
     </div>
 
     <script>
-        // Predefined usernames and passwords
         const users = [
             { username: "user1", password: "pass1" },
             { username: "user2", password: "pass2" },
@@ -122,17 +118,14 @@
 
         document.getElementById("login-form").addEventListener("submit", function(e) {
             e.preventDefault();
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
             
-            // Check if the entered username and password match any of the predefined users
             const user = users.find(u => u.username === username && u.password === password);
 
             if (user) {
-                // Set a flag to indicate the user is authenticated
                 localStorage.setItem("authenticated", "true");
-                // Redirect to the main page after successful login
-                window.location.href = "/main.html";
+                window.location.href = "main.html";
             } else {
                 const errorMsg = document.getElementById("error-msg");
                 errorMsg.classList.add("visible");
